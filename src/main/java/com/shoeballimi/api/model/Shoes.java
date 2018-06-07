@@ -32,5 +32,5 @@ public class Shoes {
     private String description;
 
     @ApiModelProperty("판매자")
-    private String seller;
+    private Seller seller;
 }
