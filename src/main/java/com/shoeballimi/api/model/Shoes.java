@@ -1,25 +1,36 @@
 package com.shoeballimi.api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.shoeballimi.api.model.request.SaveShoesRequest;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.shoeballimi.api.model.request.shoes.SaveShoesRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @ApiModel("슈발")
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Shoes {
 
     @ApiModelProperty("아이디")
     private Long id;
 
+    @ApiModelProperty("콘텐츠")
+    private String contents;
+
     @ApiModelProperty("가격정보")
     private Long price;
 
     @ApiModelProperty("발매일")
-    private LocalDateTime launchDate;
+    private LocalDate launchDate;
 
     @ApiModelProperty("등록일")
     private LocalDateTime regDate;
@@ -30,29 +41,21 @@ public class Shoes {
     @ApiModelProperty("제품명")
     private String name;
 
-    @ApiModelProperty("설명")
-    private String description;
-
     @JsonIgnore
-    private Long brandId;
-
-    @ApiModelProperty("브랜드")
-    private Brand brand;
-
-    @JsonIgnore
-    private Long sellerId;
+    private Long storeId;
 
     @ApiModelProperty("판매자")
-    private Seller seller;
+    private Store store;
 
-    public Shoes(SaveShoesRequest saveShoesRequest, Long brandId, Long sellerId) {
+    private List<Image> images;
+
+    public Shoes(SaveShoesRequest saveShoesRequest, Long storeId) {
         this.price = saveShoesRequest.getPrice();
         this.launchDate = saveShoesRequest.getLaunchDate();
         this.regDate = LocalDateTime.now();
         this.updateDate = LocalDateTime.now();
         this.name = saveShoesRequest.getName();
-        this.description = saveShoesRequest.getDescription();
-        this.brandId = brandId;
-        this.sellerId = sellerId;
+        this.contents = saveShoesRequest.getContents();
+        this.storeId = storeId;
     }
 }

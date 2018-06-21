@@ -1,10 +1,11 @@
-package com.shoeballimi.api.model.request;
+package com.shoeballimi.api.model.request.shoes;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,12 +16,12 @@ public class SaveShoesRequest {
     private Long price;
 
     @ApiModelProperty("발매일")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private LocalDateTime launchDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate launchDate;
 
     @ApiModelProperty("제품명")
     private String name;
 
     @ApiModelProperty("설명")
-    private String description;
+    private String contents;
 }

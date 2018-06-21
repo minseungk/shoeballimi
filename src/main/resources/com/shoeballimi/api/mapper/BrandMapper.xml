@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.shoeballimi.api.mapper.BrandMapper">
+
+    <resultMap id="brand" type="Brand">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="reg_date" property="regDate"/>
+    </resultMap>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO BRAND (NAME, REG_DATE) VALUES (#{name}, #{regDate})
+    </insert>
+
+    <select id="findById" resultMap="brand">
+        SELECT * FROM BRAND WHERE ID = #{id}
+    </select>
+
+    <select id="findAll" resultMap="brand">
+        SELECT * FROM BRAND
+    </select>
+
+
+</mapper>

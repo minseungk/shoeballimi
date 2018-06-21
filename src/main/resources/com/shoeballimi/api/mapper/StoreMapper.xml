@@ -4,7 +4,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.shoeballimi.api.mapper.ShoesMapper">
+<mapper namespace="com.shoeballimi.api.mapper.StoreMapper">
 
     <resultMap id="brand" type="Brand">
         <id column="brand_id" property="id"/>
@@ -24,58 +24,45 @@
         <association property="brand" resultMap="brand"/>
     </resultMap>
 
-    <resultMap id="shoes" type="Shoes">
-        <id column="shoes_id" property="id"/>
-        <result column="name" property="name"/>
-        <result column="contents" property="contents"/>
-        <result column="price" property="name"/>
-        <result column="launch_date" property="launchDate"/>
-        <result column="store_reg_date" property="regDate"/>
-        <association property="store" resultMap="store"/>
-    </resultMap>
-
-    <select id="health" resultType="Integer">
-        SELECT 1
-    </select>
-
-    <select id="findShoes" resultType="Shoes">
-        SELECT * FROM SHOES
-    </select>
-
     <insert id="save" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO SHOES (
-            STORE_ID
-            , NAME
-            , CONTENTS
-            , PRICE
+        INSERT INTO STORE (
+            NAME
+            , TEL
             , REG_DATE
-            , LAUNCH_DATE
-            )
+            , LATITUDE
+            , LONGITUDE
+            , BRAND_ID
+        )
         VALUES (
-            #{storeId}
-            , #{name}
-            , #{contents}
-            , #{price}
+            #{name}
+            , #{tel}
             , #{regDate}
-            , #{launchDate}
+            , #{location.latitude}
+            , #{location.longitude}
+            , #{brandId}
         )
     </insert>
 
-    <select id="findById" resultMap="shoes">
-        SELECT * FROM SHOES WHERE ID = #{id}
+    <select id="findById" resultMap="store">
+        SELECT
+            *
+            , STORE.ID STORE_ID
+            , STORE.REG_DATE STORE_REG_DATE
+            , BRAND.REG_DATE BRAND_REG_DATE
+        FROM STORE INNER JOIN BRAND
+          ON STORE.BRAND_ID = BRAND.ID
+        WHERE ID = #{id}
     </select>
 
     <select id="findAll" resultMap="store">
         SELECT
             *
-            , SHOES.ID SHOES_ID
-            , SHOES.REG_DATE SHOES_REG_DATE
             , STORE.ID STORE_ID
             , STORE.REG_DATE STORE_REG_DATE
             , BRAND.REG_DATE BRAND_REG_DATE
-        FROM SHOES INNER JOIN STORE
-          ON  SHOES.STORE_ID = STORE.ID
-        INNER JOIN BRAND
+        FROM STORE INNER JOIN BRAND
           ON STORE.BRAND_ID = BRAND.ID
     </select>
+
+
 </mapper>
